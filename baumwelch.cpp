@@ -44,14 +44,14 @@ HMM baumWelch(HMM& h, std::vector<std::string>& s, double delta, int num_iter) {
         std::cout << std::endl;
        }
 
-        vector<vector<vector<double>>> xi(hmm_temp.N, vector<vector<double>>(hmm_temp.N, vector<double>(T - 1, 0.0))); //trodimenzionalna matrica ksi
-		std::cout << "bla" << endl;
+        vector<vector<vector<double>>> xi(hmm_temp.N, vector<vector<double>>(hmm_temp.N, vector<double>(T - 1, 0.0))); //trodimenzionalna matrica ksi za praćenje tranzicija
+
         for (int t = 0; t < T - 1; t++){
 			cout << "T = " << t << endl;
 		    double sum = 0;
 		    for (int i = 0; i < hmm_temp.N; i++){
 			    for (int j = 0; j < hmm_temp.N; j++){
-					cout << i << j << endl;
+					
 				    xi[i][j][t] = alpha[i][t] * hmm_temp.A[i][j] * beta[j][t + 1] * hmm_temp.E[j][hmm_temp.symbol_to_index[s[t + 1]]]; //vjerojatnost da je u model u trenutku t u stanju i, u trenutku t+1 u stanju j s obzirom na emitiranu sekvencu i model H
 				    sum += xi[i][j][t];
 			    }

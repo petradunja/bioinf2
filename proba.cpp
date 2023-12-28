@@ -45,7 +45,7 @@ int main()
 	// symbol_to_index["m"] = 2;
 
 
-	std::string filename = "model.txt"; //inicijalno procjenjeni parametri na temlju HIV sekvenci
+	std::string filename = "model.txt"; //inicijalno procjenjeni parametri na temelju HIV sekvenci
 	HMM hmm(filename);
 	
 	hmm.print();
@@ -83,15 +83,15 @@ int main()
 
 	//BAUMWELCH ALGORITHM
 	//radi - provjereno u Ru
-	HMM novi_model = baumWelch(hmm2,s,1,100);
-	std::cout << "kkk" << std::endl;
-	novi_model.print();
+	// HMM novi_model = baumWelch(hmm2,s,1,100);
+	// std::cout << "kkk" << std::endl;
+	// novi_model.print();
 
-	//VITERBI ALGORITHM
-	std::vector<std::string> path = viterbi(hmm2,s);
-	for (auto& state : path) {
-            std::cout << state << " ";
-        }
+	// //VITERBI ALGORITHM
+	// std::vector<std::string> path = viterbi(hmm2,s);
+	// for (auto& state : path) {
+    //         std::cout << state << " ";
+    //     }
     
 
 

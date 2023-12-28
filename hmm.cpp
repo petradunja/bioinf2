@@ -44,36 +44,35 @@ HMM::HMM(std::string& filename)
 			} else if (key == "SIMBOLI"){
 				
 				//std::vector<std::string> symbols;
-				cout << "tu" << endl;
+			
         		for (int i = 0; i < M; ++i) {
 					file >> token;
 					symbols.push_back(token);
             		symbol_to_index[symbols[i]] = i;
         		}
-				cout << "tu3" << endl;
 
 			}
 			else if (key == "A") {
 				
                 //A = matrix<double>(0, N, N);
 				//std::vector<std::vector<double>> A(N, std::vector<double>(N, 0.0));
-				std::cout << A.size() << endl;
-				std::cout << N << endl;
+				//std::cout << A.size() << endl;
+				//std::cout << N << endl;
 				A.resize(N, std::vector<double>(N));
 				
-				std::cout << A.size();
+				//std::cout << A.size();
                 for (int i = 0; i < N; ++i)
                     for (int j = 0; j < N; ++j){
-						cout << i << j << endl;
+						
 						double value;
         				file >> value;
         				A[i][j] = value;
-						cout << A[i][j];
-						cout << "tuu";
+						//cout << A[i][j];
+						
 					}
 
             } else if (key == "E") {
-				cout << "E" << endl;
+				//cout << "E" << endl;
 				//E = matrix<double>(0, N, M);
 				//std::vector<std::vector<double>> E(N, std::vector<double>(M, 0.0));
 				E.resize(N, std::vector<double>(M));
@@ -82,20 +81,20 @@ HMM::HMM(std::string& filename)
 						double value;
         				file >> value;
         				E[i][j] = value;
-						cout << E[i][j] << endl;
+						//cout << E[i][j] << endl;
 
-						cout << "tuu";
+					
 					}
                         
             } else if (key == "pi") {
-				cout << "Pi" << endl;
+				//cout << "Pi" << endl;
                 //pi = new double[N];
 				pi.resize(N);
                 for (int i = 0; i < N; ++i){
 					double value;
                     file >> value;
 					pi[i] = value;
-					cout << pi[i] << endl;
+					//cout << pi[i] << endl;
 
 				}
             }
