@@ -121,7 +121,8 @@ HMM baumWelch(HMM& h, vector<string>& s, double delta, int num_iter) {
 		}
 
 		cout << n << endl;
-		hmm_temp.print();
+		hmm_temp.print(); 
+		
 
         //provjera je li model konvergirao, prema kod u R-u
 		double d  = squaredDifference(hmm_temp.A, h.A) +  squaredDifference(hmm_temp.E, h.E); //razlika u matricama prijelaza + razlika u matricama emisije
