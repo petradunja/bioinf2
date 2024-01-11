@@ -1,15 +1,14 @@
 #include "hmm.h"
-#include "forward.h"
-#include "backward.h"
+/* #include "backward.h"
+#include "forward.h" */
 #include "baumwelch.h"
-#include "viterbi.h"
+//#include "viterbi.h"
 
 #include <iostream>
 #include <unordered_map>
 #include <string>
 
-using std::cout;
-using std::endl;
+using namespace std;
 
 int main()
 {
@@ -45,7 +44,7 @@ int main()
 	// symbol_to_index["m"] = 2;
 
 
-	std::string filename = "model.txt"; //inicijalno procjenjeni parametri na temelju HIV sekvenci
+	string filename = "model.txt"; //inicijalno procjenjeni parametri na temelju HIV sekvenci
 	HMM hmm(filename);
 	
 	hmm.print();
@@ -54,47 +53,49 @@ int main()
 	//std::cout << hmm.pi[0] << std::endl;
 
 	//TEST: POŠTENA/NEPOŠTENA KOCKA
-	std::vector<std::string> s = {"5", "6", "2", "3", "6", "6"};
-	std::string filename2 = "model2.txt"; 
+	vector<string> s = {"5", "6", "2", "3", "6", "6", "2", "4", "1"};
+	string filename2 = "model2.txt"; 
 	HMM hmm2(filename2);
 	
 	hmm2.print();
 
 
-	//FORWARD ALGORITHM
-	std::vector<std::vector<double>> alpha = forward(hmm2, s);
+	/*  //FORWARD ALGORITHM
+	 cout << "---------Forward-----------" << endl;
+	vector<vector<double>> alpha = forward(hmm2, s);
 	//radi - provjereno u Ru
     for (const auto& row : alpha) {
         for (const auto& element : row) {
-            std::cout << element << " ";
+            cout << exp(element) << " ";
         }
-        std::cout << std::endl;
+        cout << endl;
     }
 
 	//BACKWARD ALGORITHM
-	std::vector<std::vector<double>> beta = backward(hmm2, s);
+	cout << "---------Backward-----------" << endl;
+	vector<vector<double>> beta = backward(hmm2, s);
 	//radi - provjereno u Ru
     for (const auto& row : beta) {
         for (const auto& element : row) {
-            std::cout << element << " " << "xx ";
+            cout << exp(element) << " " << "xx ";
         }
-        std::cout << std::endl;
-    }
+        cout << endl;
+    }  */
 
 	//BAUMWELCH ALGORITHM
 	//radi - provjereno u Ru
-	// HMM novi_model = baumWelch(hmm2,s,1,100);
-	// std::cout << "kkk" << std::endl;
-	// novi_model.print();
+	cout<<"BW" <<endl;
+	 HMM novi_model = baumWelch(hmm2,s,1,100);
+	 cout << "kkk" << endl;
+	 novi_model.print(); 
 
-	// //VITERBI ALGORITHM
-	// std::vector<std::string> path = viterbi(hmm2,s);
-	// for (auto& state : path) {
-    //         std::cout << state << " ";
-    //     }
+	/* // //VITERBI ALGORITHM
+	cout<<"----------Viterbi----------" <<endl;
+	vector<string> path = viterbi(hmm2,s);
+	cout<<"----------Viterbi states----------" <<endl;
+	for (auto& state : path) {
+      cout << state << " ";
+   } */
     
-
-
-
 	return 0;
 }

@@ -35,7 +35,7 @@ private:
 	std::vector<std::vector<double>> E; // MATRICA EMISIJE, e[i][j] je vjerojatnost emisije simbola j u stanju i 
 	std::vector<double> pi; // MATRICA POČENTIH VJEROJATNOSTI, pi[i] je vjerojatnost da je model u stanju i u trenutku 0
 
-	//double **A;	 //ovak je to bilo u drugoj varijanti koda
+	//double **A;
 	//double **E;	
 	//double *pi;	
 	
