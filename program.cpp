@@ -7,6 +7,8 @@
 #include <fstream>
 #include <vector>
 #include <sstream>
+#include <chrono>
+
 
 using namespace std;
 
@@ -46,25 +48,35 @@ void read_data(string filename) {
 
 int main()
 {
-	string model_filename = "datoteka.txt"; //inicijalno procjenjeni parametri na temelju HIV sekvenci
-	HMM hmm(model_filename);
-   cout << "-------HMM model--------" <<endl;
-	hmm.print();
-   cout << "-------END HMM model--------" << endl;
+    string model_filename = "datoteka.txt"; //inicijalno procjenjeni parametri na temelju HIV sekvenci
+    HMM hmm(model_filename);
+    cout << "-------HMM model--------" <<endl;
+    hmm.print();
+    cout << "-------END HMM model--------" << endl;
 
-	string parovi_simbola_filename = "parovi.txt"; //parovi simbola
-   read_data(parovi_simbola_filename);
+    string parovi_simbola_filename = "parovi.txt"; //parovi simbola
+    read_data(parovi_simbola_filename);
 
-    	cout << "-------Baum Welch-------" << endl;
+    cout << "-------Baum Welch-------" << endl;
     int i = 1;
-   for (const auto& data_vector : data) {
-      vector<string> v = data_vector;
-      cout << i++ << endl;
-      HMM new_hmm = baumWelch(hmm, v, 1, 5);
-      hmm = new_hmm;
-   }
-   cout<<"BW" <<endl;
-	hmm.print();
+    auto start_time = std::chrono::high_resolution_clock::now();
+
+    for (const auto& data_vector : data) {
+        vector<string> v = data_vector;
+        cout << i++ << endl;
+        HMM new_hmm = baumWelch(hmm, v, 0.6, 50);
+        hmm = new_hmm;
+    }    
+    
+    auto end_time = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count();
+
+    // Print the elapsed time
+    std::cout << "-------------> Elapsed time: " << duration << " milliseconds" << std::endl;
+
+
+    cout<<"BW" <<endl;
+    hmm.print();
 
 	/* // //VITERBI ALGORITHM
 	cout<<"----------Viterbi----------" <<endl;

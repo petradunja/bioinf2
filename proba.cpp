@@ -53,7 +53,7 @@ int main()
 	//std::cout << hmm.pi[0] << std::endl;
 
 	//TEST: POŠTENA/NEPOŠTENA KOCKA
-	vector<string> s = {"5", "6", "2", "3", "6", "6", "2", "4", "1"};
+	vector<string> s = {"5", "6", "2", "3", "6", "6"};
 	string filename2 = "model2.txt"; 
 	HMM hmm2(filename2);
 	

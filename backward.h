@@ -16,7 +16,7 @@ vector<vector<double>> backward(HMM& h, vector<string>& s){ //funkcija prima mod
     vector<vector<double>> beta(h.N, vector<double>(sequence_size, 0.0));//matrica u  koju pohranjujem "unazadne" vjerojatnosti sekvenci
 
     for (int i = 0; i < h.N; i++){
-		beta[i][sequence_size - 1] = log(1);
+		beta[i][sequence_size - 1] = 0;
 	}
     
 
@@ -27,10 +27,8 @@ vector<vector<double>> backward(HMM& h, vector<string>& s){ //funkcija prima mod
 			double logsum = -INFINITY;
 			for (int j = 0; j < h.N; j++)
 			{
-				double temp = beta[j][t + 1] + log(h.A[i][j]) + log(h.E[j][h.symbol_to_index[s[t + 1]]]) ;
-				if (temp > -INFINITY){
-					logsum = temp + log(1 + exp(logsum-temp));
-				}
+				double temp = log_product(log(h.A[i][j]), log_product(beta[j][t + 1], log(h.E[j][h.symbol_to_index[s[t + 1]]]))) ;
+				logsum = log_sum(temp, logsum);
 			}
 			beta[i][t] = logsum;
 		}
