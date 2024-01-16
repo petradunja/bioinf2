@@ -45,8 +45,20 @@ int dp[MAX_N][MAX_N];
  Complexity: O(n * m) time, O(n * m) memory
 */
 
-int needleman_wunsch()
-{
+int needleman_wunsch(){
+ 
+
+    //Inicijalizacija matrice
+     for (int i = 0; i < MAX_N; ++i) {
+        for (int j = 0; j < MAX_N; ++j) {
+            dp[i][j] = 0;
+            dp[i][j] = 0;
+            dp[i][j] = 0;
+        }
+    }
+
+
+
     for (int i=0;i<=n;i++) dp[i][0] = dp[0][i] = -i * gap_score;
     for (int i=1;i<=n;i++)
     {
@@ -129,8 +141,9 @@ int main()
 
   
     std::vector<std::pair<std::string, std::string>> parovi_sekvenci = readFile(file);
-    A = parovi_sekvenci[0].first;
-    B = parovi_sekvenci[0].second;
+    A = parovi_sekvenci[2].first;
+    B = parovi_sekvenci[2].second;
+    // n i m treba u petlji postaviti jer je globalna varijabla
     n = A.length();
     m = B.length();
     printf("%d %d\n",n, m);

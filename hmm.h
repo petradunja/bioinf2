@@ -5,6 +5,8 @@
 #include<fstream> 
 #include <vector> 
 #include <map>  
+#include <utility>
+#include <string>
 
 using std::fstream;
 
@@ -19,6 +21,7 @@ public:
 	friend std::vector<std::vector<double>>  backward(HMM& h, std::vector<std::string>& s); // vjerojatnost da je model u trenutku t u stanju i i da je emitirao T - t simbola (u trenutcima T do t + 1)
 	friend HMM baumWelch(HMM& h, std::vector<std::string>& s, double delta, int num_iter); // Baum-Welch algoritam
 	friend std::vector<std::string> viterbi(HMM& h, std::vector<std::string>& s); // Viterbi algoritam
+	friend std::pair<std::string, std::string> viterbi3(const std::string& x, const std::string& y,HMM& h); // Viterbi algoritam za pairwise sequence alignment
 
 
 
