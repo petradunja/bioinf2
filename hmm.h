@@ -25,7 +25,7 @@ public:
 
 
 
-private:
+public:
 	int N;	// broj skrivenih stanja
 	int M;	// broj mogućih opservacija (simbola)
 

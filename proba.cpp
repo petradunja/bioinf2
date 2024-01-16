@@ -43,12 +43,6 @@ int main()
     // symbol_to_index["iy"] = 1;
 	// symbol_to_index["m"] = 2;
 
-
-	string filename = "model.txt"; //inicijalno procjenjeni parametri na temelju HIV sekvenci
-	HMM hmm(filename);
-	
-	hmm.print();
-
 	//std::cout << hmm.E[1][1]<< std::endl; //ovo ne radi ako su parametri private
 	//std::cout << hmm.pi[0] << std::endl;
 
@@ -85,8 +79,7 @@ int main()
 	//BAUMWELCH ALGORITHM
 	//radi - provjereno u Ru
 	cout<<"BW" <<endl;
-	 HMM novi_model = baumWelch(hmm2,s,1,100);
-	 cout << "kkk" << endl;
+	 HMM novi_model = baumWelch(hmm2,s,1,100,1);
 	 novi_model.print(); 
 
 	/* // //VITERBI ALGORITHM

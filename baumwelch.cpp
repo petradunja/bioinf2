@@ -24,7 +24,7 @@ double squaredDifference(const vector<vector<double>>& matrix1, const vector<vec
 }
 
 
-HMM baumWelch(HMM& h, vector<string>& s, double delta, int num_iter) {
+HMM baumWelch(HMM& h, vector<string>& s, double delta, int num_iter, int broj) {
     
    HMM hmm_temp = h; //u Ru tako definiraju, a ne mijenaju direktno parametre modela
 	
@@ -36,30 +36,37 @@ HMM baumWelch(HMM& h, vector<string>& s, double delta, int num_iter) {
       vector<vector<double>> alpha = forward(hmm_temp,s);
       vector<vector<double>> beta = backward(hmm_temp,s);
 
-      vector<vector<vector<double>>> xi(hmm_temp.N, vector<vector<double>>(hmm_temp.N, vector<double>(T - 1, 0.0))); //trodimenzionalna matrica ksi za praćenje tranzicija
+      vector<vector<vector<double>>> xi(hmm_temp.N, vector<vector<double>>(hmm_temp.N, vector<double>(T - 1, -INFINITY))); //trodimenzionalna matrica ksi za praćenje tranzicija
 
-		vector<double> sum_xi(T-1, -INFINITY);
 		for (int t = 0; t < T - 1; t++){
+			double sumb = -INFINITY;
 			for (int i = 0; i < hmm_temp.N; i++){
 				for (int j = 0; j < hmm_temp.N; j++){
-					double temp = log_product(alpha[i][t], 
-										log_product(log(hmm_temp.A[i][j]), 
-										log_product(beta[j][t + 1], log(hmm_temp.E[j][hmm_temp.symbol_to_index[s[t + 1]]])))); //vjerojatnost da je u model u trenutku t u stanju i, u trenutku t+1 u stanju j s obzirom na emitiranu sekvencu i model H
-					xi[i][j][t] = temp;
-					sum_xi[t] = log_sum(temp, sum_xi[t]);
+					xi[i][j][t] = log_product(alpha[i][t], 
+										log_product(compute_log(hmm_temp.A[i][j]), 
+										log_product(compute_log(hmm_temp.E[j][hmm_temp.symbol_to_index[s[t + 1]]]), beta[j][t + 1]))); //vjerojatnost da je u model u trenutku t u stanju i, u trenutku t+1 u stanju j s obzirom na emitiranu sekvencu i model H
+					sumb = log_sum(sumb, xi[i][j][t]);
+				}
+			}
+
+			for (int i = 0; i < hmm_temp.N; i++){
+				for (int j = 0; j < hmm_temp.N; j++){
+					xi[i][j][t] = log_product(xi[i][j][t], -sumb);
 				}
 			}
 		}
 	
 		// gamma - vjerojatnost da je model u trenutku t u stanju i s obzirom na emitiranu sekvencu i model H
-		vector<vector<double>> gamma(hmm_temp.N, vector<double>(T, 0.0));
-		vector<double> sum_gamma(T, -INFINITY);
+		vector<vector<double>> gamma(hmm_temp.N, vector<double>(T, -INFINITY));
 
 		for (int t = 0; t < T; t++){
+			double suma = -INFINITY;
 			for (int i = 0; i < hmm_temp.N; i++){
-				double temp = log_product(alpha[i][t], beta[i][t]);
-				gamma[i][t] = temp;
-				sum_gamma[t] = log_sum(temp, sum_gamma[t]);
+				gamma[i][t] = log_product(alpha[i][t], beta[i][t]);
+				suma = log_sum(suma, gamma[i][t]);
+			}
+			for (int i = 0; i < hmm_temp.N; i++){
+				gamma[i][t] = log_product(gamma[i][t], -suma);
 			}
 		}        
 
@@ -70,43 +77,36 @@ HMM baumWelch(HMM& h, vector<string>& s, double delta, int num_iter) {
 		{
 			for (int j = 0; j < hmm_temp.N; j++)
 			{
-				double numerator = 0;
-				double denominator = 0;
+				double numerator = -INFINITY;
+				double denominator = -INFINITY;
 				for (int t = 0; t < T - 1; t++)
 				{
-					numerator += compute_exp(log_product(xi[i][j][t], - sum_xi[t])); //očekivani broj tranzicija iz stanja i u stanje j 
-					denominator += compute_exp(log_product(gamma[i][t], - sum_gamma[t])); //očekivani broj tranzcija iz stanja i 
+					numerator = log_sum(numerator, xi[i][j][t]); //očekivani broj tranzicija iz stanja i u stanje j 
+					denominator = log_sum(denominator, gamma[i][t]); //očekivani broj tranzcija iz stanja i 
 				}
-				hmm_temp.A[i][j] = numerator / denominator;
+				hmm_temp.A[i][j] = compute_exp(log_product(numerator,-denominator));
 			}
-		}
 
-		/* update E */
-		for (int i = 0; i < hmm_temp.N; i++) //stanja
-		{
-			for (int j = 0; j < hmm_temp.M; j++) //emitirani simboli
+			for (int k = 0; k < hmm_temp.M; k++) //emitirani simboli
 			{
-				double numerator = 0;
-				double denominator = 0;
+				double numerator = -INFINITY;
+				double denominator = -INFINITY;
 				for (int t = 0; t < T; t++)
 				{
-					if (hmm_temp.symbol_to_index[s[t]] == j) //indikatorska funkcija provjerava je li emitiran simbol j
+					if (hmm_temp.symbol_to_index[s[t]] == k) //indikatorska funkcija provjerava je li emitiran simbol j
 					{
-						numerator += compute_exp(log_product(gamma[i][t], - sum_gamma[t])); //očekivani broj emisija simbola j ustanju i 
+						numerator = log_sum(numerator, gamma[i][t]); //očekivani broj emisija simbola j ustanju i 
 					}
-					denominator += compute_exp(log_product(gamma[i][t], - sum_gamma[t])); //očekivani broj puta da je model u stanju i 
+					denominator = log_sum(denominator, gamma[i][t]); //očekivani broj puta da je model u stanju i 
 				}
-				hmm_temp.E[i][j] = numerator / denominator;
+
+				hmm_temp.E[i][k] = compute_exp(log_product(numerator, -denominator));
 			}
+
+			hmm_temp.pi[i] = compute_exp(gamma[i][0]);
 		}
 
-		/* update pi */
-		for (int i = 0; i < hmm_temp.N; ++i)
-		{
-			hmm_temp.pi[i] = compute_exp(log_product(gamma[i][0], - sum_gamma[0])); //očekivani broj puta da je u trenutku t=0 model u stanju i 
-		}
 		
-
       //provjera je li model konvergirao, prema kod u R-u
 		double d1  = squaredDifference(hmm_temp.A, h.A);
 		if (d1 < delta) {
@@ -118,8 +118,7 @@ HMM baumWelch(HMM& h, vector<string>& s, double delta, int num_iter) {
 			} 
 		} 
 
-
-    }
+   }
 	std::cout << "-------end-------" << endl;
 	return hmm_temp; 
 }
