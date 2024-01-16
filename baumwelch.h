@@ -9,7 +9,7 @@
 //početni parametri su procjenjeni iz HIV sekvenci
 // Expectation maximization algoritam - ponovna procjena parametara do konvergenciji ili maximalnog broja iteracija
 //vraca se novi HMM model
-HMM baumWelch(HMM& h, std::vector<std::string>& s, double delta, int num_iter); 
+HMM baumWelch(HMM& h, std::vector<std::string>& s, double delta, int num_iter, int broj); 
 
 //zbroj razlike kvadrata po matricama - potrebno za odrediti je li algoritam konvergirao
 double squaredDifference(const std::vector<std::vector<double>>& matrix1, const std::vector<std::vector<double>>& matrix2);
