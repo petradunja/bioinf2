@@ -27,6 +27,7 @@ double squaredDifference(const vector<vector<double>>& matrix1, const vector<vec
 HMM baumWelch(HMM& h, vector<string>& s, double delta, int num_iter, int broj) {
     
    HMM hmm_temp = h; //u Ru tako definiraju, a ne mijenaju direktno parametre modela
+	HMM hmm_stari= h;
 	
    int T = s.size(); //vremenski trenutci; postoji T - 1 tranzicija
 	std::cout << "Vremenski trenutci: " << T << endl;
@@ -36,7 +37,7 @@ HMM baumWelch(HMM& h, vector<string>& s, double delta, int num_iter, int broj) {
       vector<vector<double>> alpha = forward(hmm_temp,s);
       vector<vector<double>> beta = backward(hmm_temp,s);
 
-      vector<vector<vector<double>>> xi(hmm_temp.N, vector<vector<double>>(hmm_temp.N, vector<double>(T - 1, -INFINITY))); //trodimenzionalna matrica ksi za praćenje tranzicija
+      vector<vector<vector<double>>> xi(hmm_temp.N, vector<vector<double>>(hmm_temp.N, vector<double>(T - 1, 0))); //trodimenzionalna matrica ksi za praćenje tranzicija
 
 		for (int t = 0; t < T - 1; t++){
 			double sumb = -INFINITY;
@@ -57,7 +58,7 @@ HMM baumWelch(HMM& h, vector<string>& s, double delta, int num_iter, int broj) {
 		}
 	
 		// gamma - vjerojatnost da je model u trenutku t u stanju i s obzirom na emitiranu sekvencu i model H
-		vector<vector<double>> gamma(hmm_temp.N, vector<double>(T, -INFINITY));
+		vector<vector<double>> gamma(hmm_temp.N, vector<double>(T, 0));
 
 		for (int t = 0; t < T; t++){
 			double suma = -INFINITY;
@@ -107,18 +108,38 @@ HMM baumWelch(HMM& h, vector<string>& s, double delta, int num_iter, int broj) {
 		}
 
 		
+		
       //provjera je li model konvergirao, prema kod u R-u
-		double d1  = squaredDifference(hmm_temp.A, h.A);
-		if (d1 < delta) {
-			double d2 = squaredDifference(hmm_temp.E, h.E); //razlika u matricama prijelaza + razlika u matricama emisije
+		double d1  = squaredDifference(hmm_temp.A, hmm_stari.A);
+		
 
+		if (d1 < delta) {
+			double d2 = squaredDifference(hmm_temp.E, hmm_stari.E); //razlika u matricama prijelaza + razlika u matricama emisije
+			
+			hmm_stari = hmm_temp;
 			if ((d1+d2) < delta) {
-			std::cout << "Breaking out of the loop at iteration " << n + 1 << " because d < delta." << endl;
-			break;
+				std::cout << "Breaking out of the loop at iteration " << n + 1 << " because d < delta." << endl;
+				break;
 			} 
 		} 
-
+		hmm_stari = hmm_temp;
    }
+	//delta za viterbija
+	double prosjek1 = (hmm_temp.A[0][1] + hmm_temp.A[0][2])/2;
+	hmm_temp.A[0][1] = hmm_temp.A[0][2] = prosjek1;
+
+	//epsilon
+	double prosjek2 = (hmm_temp.A[1][1] + hmm_temp.A[2][2])/2;
+	hmm_temp.A[1][1] = hmm_temp.A[2][2] = prosjek2;
+
+	//1-epsilon
+	hmm_temp.A[1][0] = 1 - prosjek2;
+	hmm_temp.A[2][0] = 1- prosjek2;
+
+	hmm_temp.A[1][2] = 1e-008;
+	hmm_temp.A[2][1] = 1e-008;
+
+
 	std::cout << "-------end-------" << endl;
 	return hmm_temp; 
 }

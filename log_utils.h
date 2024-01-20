@@ -19,7 +19,7 @@ double compute_log(double x){
 
 double compute_exp(double x){
 	if (x == -INFINITY){
-		return 0;
+		return 0.00000001;
 	}
 	return exp(x);
 }

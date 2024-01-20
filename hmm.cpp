@@ -40,7 +40,7 @@ HMM::HMM(string &filename) {
 				symbols.push_back(token);
 				symbol_to_index[symbols[i]] = i;
 			}
-		} else if (key == "<A>") {
+		} else if (key == "A") {
 
 			// A = matrix<double>(0, N, N);
 			// vector<vector<double>> A(N, vector<double>(N, 0.0));
@@ -58,7 +58,7 @@ HMM::HMM(string &filename) {
 					// cout << A[i][j];
 				}
 			}
-		} else if (key == "<E>") {
+		} else if (key == "E") {
 			// cout << "E" << endl;
 			// E = matrix<double>(0, N, M);
 			// vector<vector<double>> E(N, vector<double>(M, 0.0));
@@ -72,7 +72,7 @@ HMM::HMM(string &filename) {
 				}
 			}
 				
-		} else if (key == "<pi>") {
+		} else if (key == "pi") {
 			// cout << "Pi" << endl;
 			// pi = new double[N];
 			pi.resize(N);

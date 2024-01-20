@@ -64,9 +64,9 @@ int main()
     for (const auto& data_vector : data) {
         vector<string> v = data_vector;
         cout << i << endl;
-        HMM new_hmm = baumWelch(hmm, v, 0.1, 10, i++);
+        HMM new_hmm = baumWelch(hmm, v, 0.01, 100, i++);
         hmm = new_hmm;
-        hmm.print();
+        //hmm.print();
     }    
     
     auto end_time = std::chrono::high_resolution_clock::now();
