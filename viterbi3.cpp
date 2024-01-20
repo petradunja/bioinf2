@@ -123,27 +123,17 @@ pair<string, string> viterbi3(const std::string& x, const std::string& y,HMM& h)
                 
             matrix2[i][j].backtrackDirection[2] = maxIndex_Iy;
 
-         
-
             }
-
-        
-        
         // std::swap(currentMatrix, previousMatrix);
          previousMatrix = currentMatrix;
         
         }
-   
- 
-   
-    
+
     //backtracking
     int i = x.length();
     int j = y.length();
     std::string alignmentX, alignmentY;
 
-
-    
     //std::array<double, 3> scores = {matrix[i][j].M, matrix[i][j].Ix, matrix[i][j].Iy};
     std::array<double, 3> scores = {previousMatrix[j].M, previousMatrix[j].Ix, previousMatrix[j].Iy};
 
@@ -189,7 +179,6 @@ pair<string, string> viterbi3(const std::string& x, const std::string& y,HMM& h)
         }
         }
     }
-
     return make_pair(alignmentX,alignmentY);
 }
 
@@ -200,7 +189,7 @@ int bodovanje (const std::string& x, const std::string& y){
 
     for (size_t i = 0; i < x.length(); ++i) {
         if (x[i] == '-' || y[i] == '-') {
-            bodovanje += -4;
+            bodovanje += -2;
         } else if (x[i] == y[i]) {
             bodovanje += 2;
         } else {
@@ -212,7 +201,7 @@ int bodovanje (const std::string& x, const std::string& y){
 
 
 int main() {
-    std::string filename = "inicijalna_procjena.txt"; //inicijalno procjenjeni parametri na temelju HIV sekvenci
+    std::string filename = "vani_0,01-100.txt"; //inicijalno procjenjeni parametri na temelju HIV sekvenci
 	HMM hmm(filename);
     hmm.print();
     std::string file = "sekvence_za_poravnanje.txt";
@@ -220,28 +209,28 @@ int main() {
   
     std::vector<std::pair<std::string, std::string>> parovi_sekvenci = readFile(file);
 	
-    // //pohrana bodovanja poravnanja sekvenci
-    // std::vector<int> bodovi; 
+    //pohrana bodovanja poravnanja sekvenci
+    std::vector<int> bodovi; 
 
-    // for (const auto &par : parovi_sekvenci) {
+    for (const auto &par : parovi_sekvenci) {
         
-     //std::pair<std::string, std::string> alignment = viterbi3(par.first,par.second,hmm);
-    //     printf("poravnato\n");
-    //     int bod = bodovanje(alignment.first,alignment.second)
-    //     bodovi.push_back(bod);
-    // }
+     std::pair<std::string, std::string> alignment = viterbi3(par.first,par.second,hmm);
+        printf("poravnato\n");
+        int bod = bodovanje(alignment.first,alignment.second);
+        bodovi.push_back(bod);
+    }
 
-    // // Spremanje bodova u datoteku
-    // std::ofstream outFile("bodovanjeViterbi.txt");
-    // if (outFile.is_open()) {
-    //     for (size_t i = 0; i < bodovi.size(); ++i) {
-    //         outFile  << bodovi[i] << std::endl;
-    //     }
-    //     outFile.close();
-    //     std::cout << "Bodovi su uspješno zapisani" << std::endl;
-    // } else {
-    //     std::cerr << "Greška pri otvaranju datoteke bodovanja.txt." << std::endl;
-    // }
+    // Spremanje bodova u datoteku
+    std::ofstream outFile("bodovanjeViterbi.txt");
+    if (outFile.is_open()) {
+        for (size_t i = 0; i < bodovi.size(); ++i) {
+            outFile  << bodovi[i] << std::endl;
+        }
+        outFile.close();
+        std::cout << "Bodovi su uspješno zapisani" << std::endl;
+    } else {
+        std::cerr << "Greška pri otvaranju datoteke bodovanja.txt." << std::endl;
+    }
 
 
         auto start_time = std::chrono::high_resolution_clock::now();
@@ -261,9 +250,6 @@ int main() {
         std::cout << "Trajanje izvrsavanje programa: " << duration.count() << " sekundi." << std::endl;
    
         std::cout << bodovanje(alignment.first,alignment.second) << std::endl;
-
-
-    
 
     return 0;
 }
