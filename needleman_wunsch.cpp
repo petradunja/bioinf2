@@ -130,7 +130,7 @@ int main()
    
    auto start_time = std::chrono::high_resolution_clock::now();
 
-    match_score = 2, mismatch_score = 1, gap_score = 4;
+    match_score = 2, mismatch_score = 1, gap_score = 2;
     std::string file = "sekvence_za_poravnanje.txt";
 
   
