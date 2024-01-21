@@ -34,7 +34,7 @@ std::vector<std::pair<std::string, std::string>> readFile( std::string& nazivDat
             tokens.push_back(token);
         }
 
-        // Ako postoje dva tokena, dodaj ih u vektor parova
+        //dodaj ih u vektor parova
         if (tokens.size() == 2) {
             rezultat.emplace_back(tokens[0], tokens[1]);
         }

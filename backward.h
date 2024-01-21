@@ -2,6 +2,7 @@
 #define backward_H
 
 #include"hmm.h"
+#include"log_utils.h"
 #include <cmath>
 #include <iostream>
 #include <vector>

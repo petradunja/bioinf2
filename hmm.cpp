@@ -4,7 +4,7 @@
 
 using namespace std;
 
-// todo:konstruktor koji nije preko datoteke nego HMM(states,symbols,A,E,pi)
+
 
 HMM::HMM(string &filename) {
 
@@ -24,7 +24,7 @@ HMM::HMM(string &filename) {
 			file >> N;
 		} else if (key == "STANJA") {
 
-			// vector<string> states;
+			
 			for (int i = 0; i < N; ++i){
 				file >> token;
 				states.push_back(token);
@@ -32,7 +32,7 @@ HMM::HMM(string &filename) {
 			}
 		} else if (key == "SIMBOLI") {
 
-			// vector<string> symbols;
+			
 
 			for (int i = 0; i < M; ++i)
 			{
@@ -42,45 +42,39 @@ HMM::HMM(string &filename) {
 			}
 		} else if (key == "A") {
 
-			// A = matrix<double>(0, N, N);
-			// vector<vector<double>> A(N, vector<double>(N, 0.0));
-			// cout << A.size() << endl;
-			// cout << N << endl;
+		
 			A.resize(N, vector<double>(N));
 
-			// cout << A.size();
+		
 			for (int i = 0; i < N; ++i){
 				for (int j = 0; j < N; ++j)
 				{
 					double value;
 					file >> value;
 					A[i][j] = value;
-					// cout << A[i][j];
+					
 				}
 			}
 		} else if (key == "E") {
-			// cout << "E" << endl;
-			// E = matrix<double>(0, N, M);
-			// vector<vector<double>> E(N, vector<double>(M, 0.0));
+			
 			E.resize(N, vector<double>(M));
 			for (int i = 0; i < N; ++i) {
 				for (int j = 0; j < M; ++j) {
 					double value;
 					file >> value;
 					E[i][j] = value;
-					// cout << E[i][j] << endl;
+					
 				}
 			}
 				
 		} else if (key == "pi") {
-			// cout << "Pi" << endl;
-			// pi = new double[N];
+		
 			pi.resize(N);
 			for (int i = 0; i < N; ++i){
 				double value;
 				file >> value;
 				pi[i] = value;
-				// cout << pi[i] << endl;
+			
 			}
 		}
 	}
@@ -91,15 +85,15 @@ HMM::HMM(string &filename) {
 void HMM::print()
 {
 	cout << "M (broj simbola) = " << M << endl;
-	cout << "N (broj stanja)= " << N << endl;
+	cout << "N (broj stanja) = " << N << endl;
 
-	cout << "SIMBOLI:" << endl;
+	cout << "SIMBOLI" << endl;
 	for (const auto &symbol : symbols){
 		cout << symbol << " ";
 	}
 	cout << endl;
 
-	cout << "STANJA:" << endl;
+	cout << "STANJA" << endl;
 	for (const auto &state : states) {
 		cout << state << " ";
 	}

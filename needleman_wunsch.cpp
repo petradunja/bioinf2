@@ -143,7 +143,7 @@ int main()
         
         A = par.first;
         B = par.second;
-         // n i m treba u petlji postaviti jer je globalna varijabla
+        
         n = A.length();
         m = B.length();
         

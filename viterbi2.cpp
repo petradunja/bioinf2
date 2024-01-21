@@ -31,7 +31,7 @@ struct ViterbiInfo2 {
 ViterbiInfo2 matrix2[MAX_N][MAX_N];
 
 
-pair<string, string> viterbi3(const std::string& x, const std::string& y,HMM& h){
+pair<string, string> viterbi2(const std::string& x, const std::string& y,HMM& h){
     int len_x = x.length();
     int len_y = y.length();
     std::cout << len_x << len_y << std::endl;
@@ -57,7 +57,6 @@ pair<string, string> viterbi3(const std::string& x, const std::string& y,HMM& h)
 
 
 
-    printf("tu2");
 
     double delta = h.A[0][1]; //vjerojatnost prijelaza iz M u Ix
     double delta2 = h.A[0][2]; // vjerojatnost prijelaza iz Mu Iy
@@ -80,26 +79,17 @@ pair<string, string> viterbi3(const std::string& x, const std::string& y,HMM& h)
 
             
 
-        // //     //odredivanje maksimuma za M
-
-       
+            //odredivanje maksimuma za M
             std::array<double, 3> scores_M = {log(MuM) + previousMatrix[j-1].M, log(XuM) + previousMatrix[j-1].Ix, log(YuM) + previousMatrix[j-1].Iy};
             currentMatrix[j].M = log(h.E[0][h.symbol_to_index[pair]]) + std::max({log(MuM) + previousMatrix[j-1].M, log(XuM) + previousMatrix[j-1].Ix, log(YuM) + previousMatrix[j-1].Iy});
 
    
-            // // //odredivanje maksimuma za Ix
-       
-         
-
+            //odredivanje maksimuma za Ix
             std::array<double, 2> scores_Ix = { log(delta) + previousMatrix[j].M, log(epsilon) + previousMatrix[j].Ix };
             currentMatrix[j].Ix = log(h.E[1][h.symbol_to_index[std::string(1, x[i-1])]]) + std::max({ log(delta) + previousMatrix[j].M, log(epsilon) + previousMatrix[j].Ix });
 
     
-        //     //odredivanje maksimuma za Iy
-    
-
-
-
+            //odredivanje maksimuma za Iy
            std::array<double, 2> scores_Iy = { log(delta2) + currentMatrix[j-1].M, log(epsilon2) + currentMatrix[j-1].Iy};
            currentMatrix[j].Iy = log(h.E[2][h.symbol_to_index[std::string(1, y[j-1])]]) + std::max({ log(delta2) + currentMatrix[j-1].M, log(epsilon2) + currentMatrix[j-1].Iy});
 
@@ -124,7 +114,7 @@ pair<string, string> viterbi3(const std::string& x, const std::string& y,HMM& h)
             matrix2[i][j].backtrackDirection[2] = maxIndex_Iy;
 
             }
-        // std::swap(currentMatrix, previousMatrix);
+
          previousMatrix = currentMatrix;
         
         }
@@ -134,7 +124,7 @@ pair<string, string> viterbi3(const std::string& x, const std::string& y,HMM& h)
     int j = y.length();
     std::string alignmentX, alignmentY;
 
-    //std::array<double, 3> scores = {matrix[i][j].M, matrix[i][j].Ix, matrix[i][j].Iy};
+    
     std::array<double, 3> scores = {previousMatrix[j].M, previousMatrix[j].Ix, previousMatrix[j].Iy};
 
     int maxIndex = std::distance(scores.begin(), std::max_element(scores.begin(), scores.end()));
@@ -201,7 +191,7 @@ int bodovanje (const std::string& x, const std::string& y){
 
 
 int main() {
-    std::string filename = "vani_0,01-100.txt"; //inicijalno procjenjeni parametri na temelju HIV sekvenci
+    std::string filename = "vani_0.01-100.txt"; //inicijalno procjenjeni parametri na temelju HIV sekvenci
 	HMM hmm(filename);
     hmm.print();
     std::string file = "sekvence_za_poravnanje.txt";
@@ -214,7 +204,7 @@ int main() {
 
     for (const auto &par : parovi_sekvenci) {
         
-     std::pair<std::string, std::string> alignment = viterbi3(par.first,par.second,hmm);
+     std::pair<std::string, std::string> alignment = viterbi2(par.first,par.second,hmm);
         printf("poravnato\n");
         int bod = bodovanje(alignment.first,alignment.second);
         bodovi.push_back(bod);
@@ -232,24 +222,24 @@ int main() {
         std::cerr << "Greška pri otvaranju datoteke bodovanja.txt." << std::endl;
     }
 
-
-        auto start_time = std::chrono::high_resolution_clock::now();
-        std::cout << "Sekvenca1: " << parovi_sekvenci[3].first << " Sekvenca2: " << parovi_sekvenci[3].second << std::endl;
+        // poravnanje jednog para sekvenci
+        // auto start_time = std::chrono::high_resolution_clock::now();
+        // std::cout << "Sekvenca1: " << parovi_sekvenci[0].first << " Sekvenca2: " << parovi_sekvenci[0].second << std::endl;
 
   
-        std::pair<std::string, std::string> alignment = viterbi3(parovi_sekvenci[3].first,parovi_sekvenci[3].second,hmm);
+        // std::pair<std::string, std::string> alignment = viterbi2(parovi_sekvenci[2].first,parovi_sekvenci[2].second,hmm);
         
-        printf("poravnato\n");
-        printf("%s\n%s\n", alignment.first.c_str(), alignment.second.c_str());
+        // printf("poravnato\n");
+        // printf("%s\n%s\n", alignment.first.c_str(), alignment.second.c_str());
 
-        auto end_time = std::chrono::high_resolution_clock::now();
+        // auto end_time = std::chrono::high_resolution_clock::now();
      
-        auto duration = std::chrono::duration_cast<std::chrono::seconds>(end_time - start_time);
+        // auto duration = std::chrono::duration_cast<std::chrono::seconds>(end_time - start_time);
 
    
-        std::cout << "Trajanje izvrsavanje programa: " << duration.count() << " sekundi." << std::endl;
+        // std::cout << "Trajanje izvrsavanje programa: " << duration.count() << " sekundi." << std::endl;
    
-        std::cout << bodovanje(alignment.first,alignment.second) << std::endl;
+        // std::cout << bodovanje(alignment.first,alignment.second) << std::endl;
 
     return 0;
 }

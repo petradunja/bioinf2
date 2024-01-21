@@ -48,7 +48,7 @@ void read_data(string filename) {
 
 int main()
 {
-    string model_filename = "datoteka.txt"; //inicijalno procjenjeni parametri na temelju HIV sekvenci
+    string model_filename = "inicijalna_procjena.txt"; //inicijalno procjenjeni parametri na temelju HIV sekvenci
     HMM hmm(model_filename);
     cout << "-------HMM model--------" <<endl;
     hmm.print();
@@ -64,7 +64,8 @@ int main()
     for (const auto& data_vector : data) {
         vector<string> v = data_vector;
         cout << i << endl;
-        HMM new_hmm = baumWelch(hmm, v, 0.01, 100, i++);
+        HMM new_hmm = baumWelch(hmm, v, 0.01, 100);
+        i++;
         hmm = new_hmm;
         //hmm.print();
     }    
@@ -72,20 +73,13 @@ int main()
     auto end_time = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count();
 
-    // Print the elapsed time
+ 
     std::cout << "-------------> Elapsed time: " << duration << " milliseconds" << std::endl;
 
 
     cout<<"BW" <<endl;
     hmm.print();
 
-	/* // //VITERBI ALGORITHM
-	cout<<"----------Viterbi----------" <<endl;
-	vector<string> path = viterbi(hmm,s);
-	cout<<"----------Viterbi states----------" <<endl;
-	for (auto& state : path) {
-      cout << state << " ";
-   } */
 
 	return 0;
 }

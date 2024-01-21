@@ -113,7 +113,7 @@ double log_product(double x, double y){
 Viterbijev algoritam pronalazi najvjerojatniji niz stanja u skrivenom Markovljevom modelu (HMM) na temelju opaženog niza simbola i parametara modela. Implementirale smo inačicu Viterbijeva algoritma koja pronalazi najvjerojatniji slijed skrivenih stanja na temelju opaženih parova simbola. Ta stanja ujedno predstavljaju poravnanje dva slijeda na ulazu algoritma. 
 
 Naš skriveni Markovljev model može se opisati slikom \ref{fig:hmm}. Razlikujemo 3 skrivena stanja: M, X i Y. U dijelu literature stanje X se naziva $I_{x}$, a stanje Y $I_{y}$ upravo jer predstavlja umetanje (engl. insertion) u odgovarajuću sekvencu. Pretpostavlja se da je početno stanje M. Generiranje nizova ovisi o vjerojatnostima prijelaza između stanja i vjerojatnosti emisije parova simbola. Ovako opisani model ima dva stupnja slobode: vjerojatnost prijelaza (delta) iz stanja M  u X ili Y i vjerojatnost ostanka (epsilon) u stanju X, tj. Y. Ostale vjerojatnosti proizlaze iz činjenice da zbroj izlaznih vjerojatnosti iz svih stanja mora biti 1. 
-Stanje M odgovara emisiji para simbola $x_{i}$, $y_{j}$, a stanja X i Y predstavljaju emisiju simbola jedne sekvence i praznine u drugom slijedu. Pomoću Baum Welch algoritma i javno dostupne baze poravnanja HIV sekvenci odredile smo parametre modela. Ovisno o kriteriju zaustavljanja BW algoritma dobivena su 2 HMM modela. 
+Stanje M odgovara emisiji para simbola $x_{i}$, $y_{j}$, a stanja X i Y predstavljaju emisiju simbola jedne sekvence i praznine u drugom slijedu. Pomoću Baum Welch algoritma i javno dostupne baze poravnanja HIV sekvenci odredile smo parametre modela. Ovisno o kriteriju zaustavljanja BW algoritma dobivena su 2 HMM modela. Kako bi modeli odgovarali modelu sa slike, za vjerojatnosti prijelaza koje bi trebale biti jednake (primjerice, prijelaz iz M u X i iz M u Y) uzeta je srednja vrijednost i osigurano da je zbroj vjerojatnosti u retku matrice prijelaza jednak 1.
 \begin{figure}[H]
 	\centering
 	\includegraphics[height=6cm,keepaspectratio]{slike/hmmpair.png} 
@@ -124,7 +124,7 @@ Stanje M odgovara emisiji para simbola $x_{i}$, $y_{j}$, a stanja X i Y predstav
  U nastavku je opisan Viterbijev algoritam. Iterativno se popunjavaju 3 matrice veličine $(n+1) \cdot (m+1)$, pri čemu je $n$ veličina prvog, a $m$ veličina drugog slijeda kojeg želimo poravnati . Inicijalno se postavi: 
  $V^{M}(0, 0) &= 1, V^{I_x}(i, 0) &= 0, V^{I_y}(0, j)} &= 0$.
 
-\begin{algorithm}
+\begin{algorithm}[H]
 		\caption{Viterbijev algoritam}
 	\label{alg:viterbi}
 	\begin{align*}
@@ -144,7 +144,7 @@ Stanje M odgovara emisiji para simbola $x_{i}$, $y_{j}$, a stanja X i Y predstav
 	\end{align*}
 \end{algorithm}
 
-U praksi su slijedovi koje trebamo poravnati dugački te je navedeni algoritam neupotrebljiv jer je množenje velikog broja vjerojatnosti (brojeva između 0 i 1) numerički nestabilno. Zato smo implementirale logaritamsku inačicu.
+U praksi su sljedovi koje trebamo poravnati dugački te je navedeni algoritam neupotrebljiv jer je množenje velikog broja vjerojatnosti (brojeva između 0 i 1) numerički nestabilno. Zato smo implementirale logaritamsku inačicu.
 
 \begin{algorithm}
 	\caption{Viterbijev algoritam - logaritamska inačica}
@@ -193,7 +193,7 @@ Na odabranim sekvencama provele smo poravnanje pomoću NW algoritma uz 2 kriteri
 	\item +2 za podudranje, -1 za nepodudaranje, -4 za prazninu
 \end{itemize} 
 
-
+Dobiveni rezultati su prikazani u tablici \ref{tab:rezultati}.
 
 \begin{table}[ht]
 	\centering
@@ -207,15 +207,29 @@ Na odabranim sekvencama provele smo poravnanje pomoću NW algoritma uz 2 kriteri
 		\bottomrule
 	\end{tabular}
 	\caption{Srednje vrijednosti bodovanja i standardne devijacije poravnanja modela}
-	\label{tab:modeli}
+	\label{tab:rezultati}
 \end{table}
 
-treba dodati graf poravanja sekvenci za modele i komentirati rezultate
+treba dodati statistiku iz jupytera i komentirati rezultate
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[height = 8 cm, width=0.9\textwidth]{slike/bodovanje_graf1.png} 
+	\caption{Usporedba rezultata naših modela i Needleman Wunsch algoritma}}
+	\label{fig:bodovanje1}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[height = 8 cm, width=0.9\textwidth]{slike/bodovanje_graf2.png} 
+	\caption{Usporedba rezultata naših modela i Needleman Wunsch algoritma}}
+	\label{fig:bodovanje2}
+\end{figure}
 
 Rezultati bi bili bolji da se koristilo više sekvenci za inicijalnu procjenu modela pomoću Baum Welch algoritma. Bilo bi poželjno iskoristiti i sekvence različite od HIVa kako bi model bolje generalizirao. Zbog ograničenih resursa, korišten je manji broj sekvenci za učenje parametara modela i za testiranje Viterbijeva algoritma. Ipak, rezultati su pokazali da je ovaj pristup poravananja blizak rezultatima NW algoritma ukoliko su sekvence koje treba poravnati slične onima koje su korištene za određivanje parametara HMM.
 
 \chapter{Zaključak}
-U ovom je radu isprobano poravnanje sljedova HIVa pomoću skrivenog Markovljeva modela. Za određivanje parametara modela korišten je algoritam Baum Welch, a za generiranje poravnanja sljedova Viterbijev algoritam. Dobiveni rezulati su uspoređeni s rezultatima dobivenim algoritmom Needleman Wunsch koji generira globalno optimalno poravnanje sljedova. Ključno poboljšanje bi bilo korištenje većeg broja slijedova za procjenu parametara modela te optimizacija vremenske i memorijske složenosti implementacije algoritama.
+U ovom je radu isprobano poravnanje sljedova HIVa pomoću skrivenog Markovljeva modela. Za određivanje parametara modela korišten je algoritam Baum Welch, a za generiranje poravnanja sljedova Viterbijev algoritam. Dobiveni rezulati su uspoređeni s rezultatima dobivenim algoritmom Needleman Wunsch koji generira globalno optimalno poravnanje sljedova. Ključno poboljšanje dosadašnjeg rada bi bilo korištenje većeg broja sekvenci za procjenu parametara modela te optimizacija vremenske i memorijske složenosti implementacije algoritama.
  
 \nocite{*}
 \bibliography{literatura}

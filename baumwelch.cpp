@@ -24,10 +24,10 @@ double squaredDifference(const vector<vector<double>>& matrix1, const vector<vec
 }
 
 
-HMM baumWelch(HMM& h, vector<string>& s, double delta, int num_iter, int broj) {
+HMM baumWelch(HMM& h, vector<string>& s, double delta, int num_iter) {
     
-   HMM hmm_temp = h; //u Ru tako definiraju, a ne mijenaju direktno parametre modela
-	HMM hmm_stari= h;
+   HMM hmm_temp = h; 
+   HMM hmm_stari= h;
 	
    int T = s.size(); //vremenski trenutci; postoji T - 1 tranzicija
 	std::cout << "Vremenski trenutci: " << T << endl;
@@ -96,7 +96,7 @@ HMM baumWelch(HMM& h, vector<string>& s, double delta, int num_iter, int broj) {
 				{
 					if (hmm_temp.symbol_to_index[s[t]] == k) //indikatorska funkcija provjerava je li emitiran simbol j
 					{
-						numerator = log_sum(numerator, gamma[i][t]); //očekivani broj emisija simbola j ustanju i 
+						numerator = log_sum(numerator, gamma[i][t]); //očekivani broj emisija simbola j u stanju i 
 					}
 					denominator = log_sum(denominator, gamma[i][t]); //očekivani broj puta da je model u stanju i 
 				}
@@ -128,11 +128,11 @@ HMM baumWelch(HMM& h, vector<string>& s, double delta, int num_iter, int broj) {
 	double prosjek1 = (hmm_temp.A[0][1] + hmm_temp.A[0][2])/2;
 	hmm_temp.A[0][1] = hmm_temp.A[0][2] = prosjek1;
 
-	//epsilon
+	// //epsilon
 	double prosjek2 = (hmm_temp.A[1][1] + hmm_temp.A[2][2])/2;
 	hmm_temp.A[1][1] = hmm_temp.A[2][2] = prosjek2;
 
-	//1-epsilon
+	// //1-epsilon
 	hmm_temp.A[1][0] = 1 - prosjek2;
 	hmm_temp.A[2][0] = 1- prosjek2;
 
