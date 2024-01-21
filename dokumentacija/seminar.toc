@@ -1,7 +1,8 @@
 \babel@toc {croatian}{}\relax 
 \contentsline {chapter}{\numberline {1}Uvod}{1}{}%
-\contentsline {chapter}{\numberline {2}Opis algoritma}{2}{}%
+\contentsline {chapter}{\numberline {2}Opis algoritama}{2}{}%
 \contentsline {section}{\numberline {2.1}Baum-Welch algoritam}{2}{}%
 \contentsline {section}{\numberline {2.2}Viterbi algoritam}{2}{}%
-\contentsline {chapter}{\numberline {3}Analiza rezultata}{3}{}%
-\contentsline {chapter}{\numberline {4}Literatura}{4}{}%
+\contentsline {chapter}{\numberline {3}Analiza rezultata}{5}{}%
+\contentsline {chapter}{\numberline {4}Zaključak}{7}{}%
+\contentsline {chapter}{\numberline {5}Literatura}{8}{}%

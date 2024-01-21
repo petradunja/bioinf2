@@ -1,18 +1,15 @@
-\begin{thebibliography}{2}
+\begin{thebibliography}{1}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
 
-\bibitem[Mikko~Rautiainen i Marschall(2019)]{Clan2}
-Veli~Makinen Mikko~Rautiainen i Tobias Marschall.
-\newblock \emph{{Bit-parallel sequence-to-graph alignment}}.
-\newblock 2019.
-
-\bibitem[Navarro(1999)]{Clan1}
-Gonzalo Navarro.
-\newblock \emph{{Improved approximate pattern matching on hypertex}}.
-\newblock University of Chile, 1999.
+\bibitem[Durbin et~al.(1998)Durbin, Eddy, Krogh, i
+  Mitchison]{durbin1998biological}
+Richard Durbin, Sean~R Eddy, Anders Krogh, i Graeme Mitchison.
+\newblock \emph{Biological sequence analysis: probabilistic models of proteins
+  and nucleic acids}.
+\newblock Cambridge university press, 1998.
 
 \end{thebibliography}
