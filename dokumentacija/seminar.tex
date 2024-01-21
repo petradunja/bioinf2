@@ -49,7 +49,7 @@ Ovaj rad bavi se implementacijom algoritma za poravnanje koji koristi skrivene  
 
 \bigskip
 
-Drugo poglavlje rada bavi se detaljnijim opisom algoritama Baum-Welch i Viterbi te jednostavnim primjerom njihovog rada. Treće poglavlje bavi se analizom dobivenih rezultata te njihovom usporedbom s rezultatima dobivenima s pomoću algoritma Needleman-Wunsch.
+Drugo poglavlje rada bavi se detaljnijim opisom algoritama Baum-Welch i Viterbi. Treće poglavlje bavi se analizom dobivenih rezultata te njihovom usporedbom s rezultatima dobivenima s pomoću algoritma Needleman-Wunsch.
 
 
 
@@ -60,14 +60,51 @@ Drugo poglavlje rada bavi se detaljnijim opisom algoritama Baum-Welch i Viterbi 
 \chapter{Opis algoritama}
 
 \section{Baum-Welch algoritam}
+Baum-Welch algoritam, poznat i kao algoritam "forward-backward", je iterativni postupak koji se koristi za treniranje skrivenih Markovljevih modela odnosno za procjenu njegovih parametara pi, A i E. A je matrica vjerojatnosti prijelaza između stanja modela, E je matrica vjerojatnosti emisije simbola x u nekom stanju y, a pi je vektor početnih vjerojatnosti stanja. Algoritam se sastoji od tri koraka, inicijalizacije parametara HMM, računanje očekivanja te maksimizacije očekivanja. Implementacija algoritma rađena je po uzoru na paket HMM iz R-a \footnote{\url{https://rdrr.io/cran/HMM/src/R/HMM.r}}. 
 
-Implementacija po uzoru na paket HMM iz R-a \footnote{\url{https://rdrr.io/cran/HMM/src/R/HMM.r}}. 
-\begin{lstlisting}[language=C++, caption={Ažuriranje vrijednosti Cv}, captionpos=b, label={k1}]
-	if (patt[i] = t[v]){
-		Cv'=min({Cu/(u,v)eE}u{i-1})
-	}else{
-		Cv' = 1 + min(Cv, min Cu/(u,v)eE)
+\bigskip
+Ulaz u Baum Welch algoritam je HMM s postavljenim inicijalnim vrijednostima navedenih parametara, niz parova simbola, vrijednost delta te zadani broj iteracija. Parametri HMM-a mogu se inicijalizirati nasumično, a u ovom smo ih radu procijenili na uzorku od 500 sekvenci odnosno 249 500 parova sekvenci. Prije inicijalizacije te prije pokretanja algoritma potrebno je obraditi sekvence. Najprije se izbace sve sekvence koje sadrže bilo koje znakove koji nisu znakovi A,C,T,G i -.  Iz parova sekvenci potrebno je izbaciti praznine ako se one nalaze na istom indeksu u svakoj od sekvenci te uzastopne praznine (npr. sekvence -AG i C-T postaju AG i CT). Zatim je potrebno napraviti listu parova simbola od svakog para sekvenci. Neka imamo par sekvenci ACTA i GCAT pripadajuća lista parova simbola bila bi AG, CC, TA, AT.
+
+\bigskip
+Nakon inicijalizacije HMM te pripreme sekvenci za obradu, slijedi iterativno računanje očekivanja te 
+njegova maksimizacija. Trajanje algoritma određeno je brojem iteracija x te vrijednosti delta d koje se 
+postavljaju proizvoljno. Algoritam može prestati s radom nakon nekog određenog broja iteracija ili se 
+nakon svake iteracija može računati vrijednost delta $d_i$. Vrijednost $d_i$ definirana je kao zbroj 
+kvadratne razlike početne te izračunate matrice A i kvadratne razlike početne i izračunate matrice E. 
+Uvjet zaustavljanja na temelju vrijednosti delte glasi $d_i$ < d, a provjerava se na kraju svake iteracije. 
+
+\bigskip
+Unutar svake iteracije provodi se jedan forward i jedan backward algoritam. 
+Forward algoritam koristi se za izračun vjerojatnosti da je u trenutku \textit{t}   model u stanju \textit{i}, 
+koristeći pri tom znanje o prethodno emitiranim simbolima. 
+Rezultat forward algoritma je matrica koju označavamo s $\alpha$. 
+Backward algoritam koristi se za izračun $\beta$ matrice koja također izračunava vjerojatnost da je u trenutku \textit{t} model u stanju \textit{i} te da je emitirao \textit{T-t} simbola od trenutka \textit{T} do trenutka \textit{t+1}. Na temelju izračunatih matrica $\alpha$ i $\beta$ dalje računamo vjerojatnosti $\gamma$ i $\xi$. $\gamma$ je posteriorna vjerojatnost da se sustav nalazi u stanju Si u trenutku t za promatrani niz i parametre HMM. $\xi$ je vjerojatnost da se model, u trenutcima \textit{t}  i \textit{t+1} nalazi u stanjima \textit{i} i \textit{j} uz promatrani niz i parametre modela. Na kraju iteracije, s dobivenim matricama $\xi$ i $\gamma$ ažuriramo vrijednosti parametra modela.
+
+\bigskip
+Budući da računamo s vjerojatnostima koje se kreću u rasponu od 0 do 1, za računanje se koriste logaritmi te pripadne logaritamske implementacije računskih operacija.
+Implementacije funkcija za zbroj i umnožak logaritama prikazane su kodom \k1 (napomena: LOGZERO je varijabla postavljena na broj -INFINITY, a predstavlja broj 0).
+
+
+\begin{lstlisting}[language=C++, caption={Funkcije za računanje s logaritamskih vrijednostima}, captionpos=b, label={k1}]
+double log_sum(double x, double y){
+	if (x==LOGZERO || y==LOGZERO){
+		if (x==LOGZERO){
+			return y;
+		} 
+		return x;
+	} else if (x > y){
+		return x + compute_log(1 + compute_exp(y-x));
+	} else {
+		return y + compute_log(1 + compute_exp(x-y));
 	}
+}
+
+double log_product(double x, double y){
+	if (x==LOGZERO || y==LOGZERO){
+		return LOGZERO;
+	}
+	return x + y;
+}
 \end{lstlisting}
 
 
