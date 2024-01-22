@@ -190,27 +190,36 @@ Pomoću dobivenih modela generirale smo poravnanje nasumično odabranih 50 sljed
 Na odabranim sekvencama provele smo poravnanje pomoću NW algoritma uz 2 kriterija bodovanja poravnanja sljedova:
 \begin{itemize}
 	\item +2 za podudaranje, -1 za nepodudaranje, -2 za prazninu
-	\item +2 za podudranje, -1 za nepodudaranje, -4 za prazninu
+	\item +2 za podudaranje, -1 za nepodudaranje, -4 za prazninu
 \end{itemize} 
 
 Dobiveni rezultati su prikazani u tablici \ref{tab:rezultati}.
 
 \begin{table}[ht]
 	\centering
-	\begin{tabular}{lcc}
-		\toprule
-		\textbf{MODEL} & \textbf{SREDNJA VRIJEDNOST BODOVANJA} & \textbf{STANDARDNA DEVIJACIJA} \\
+	\small % Podesite veličinu fonta
+	\begin{tabular}{lccc}
+		  \toprule
+		\textbf{MODEL} & \textbf{BODOVANJE} & \textbf{SREDNJA VRIJEDNOST} & \textbf{STANDARDNA}} \\
+		& & \textbf{BODOVANJA} & \textbf{DEVIJACIJA} \\
 		\midrule
-		Model 1 & 25.4 & 3.2 \\
-		Model 2 & 18.7 & 2.8 \\
-		Model 3 & 22.1 & 4.5 \\
+	
+		\midrule
+		
+		NW & +2, -1, -2 & 15080.90 & 689.12\\
+		Viterbi ($\delta$ = 0.01) & +2, -1, -2 & 14487.92 & 737.18 \\
+		Viterbi ($\delta$ = 0.001) & +2, -1, -2 & 14555.24 & 722.95 \\
+		NW & +2, -1, -4 & 14473.60 & 1179.47 \\
+		Viterbi ($\delta$ = 0.01)  & +2, -1, -4 & 13577.40 & 1238.99 \\
+		Viterbi ($\delta$ = 0.001) & +2, -1, -4 & 13676.96 & 1211.97 \\
 		\bottomrule
 	\end{tabular}
 	\caption{Srednje vrijednosti bodovanja i standardne devijacije poravnanja modela}
 	\label{tab:rezultati}
 \end{table}
 
-treba dodati statistiku iz jupytera i komentirati rezultate
+Može se reći da je model s manjom deltom dao bolja poravnanja: bliži je prosječnom poravnanju Needleman Wunsch algoritma i ima manju standardnu devijaciju. Needleman Wunsch algoritam prosječno je dao bolja poravnanja po obje bodovne sheme. Na slikama 3.1 i 3.2 se može vidjeti odstupanje naših modela od NW algoritma za svaku sekvencu. Za oba modela je to odstupanje od oko 10\% od Needleman Wunsch poravnanja. U slučaju sheme koja manje kažnjava praznine (-2, umjesto -4) odstupanje je malo (razlika oko 2 \%) manje.
+
 
 \begin{figure}[H]
 	\centering

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/W32TeX) (preloaded format=pdflatex 2022.1.3)  21 JAN 2024 23:20
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/W32TeX) (preloaded format=pdflatex 2022.1.3)  22 JAN 2024 22:31
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -622,6 +622,14 @@ File: slike/hmmpair.png Graphic file (type png)
 Package pdftex.def Info: slike/hmmpair.png  used on input line 119.
 (pdftex.def)             Requested size: 219.81416pt x 170.71652pt.
 
+
+Package natbib Warning: Citation `durbin1998biological' on page 4 undefined on 
+input line 120.
+
+
+Package natbib Warning: Citation `durbin1998biological' on page 4 undefined on 
+input line 120.
+
 ! Misplaced alignment tab character &.
 l.125  $V^{M}(0, 0) &
                      = 1, V^{I_x}(i, 0) &= 0, V^{I_y}(0, j)} &= 0$.
@@ -1061,20 +1069,14 @@ my insertion and my current dilemma will both disappear.
 [5] [6]
 Poglavlje 3.
 
-Overfull \hbox (37.02455pt too wide) in paragraph at lines 200--209
- [][] 
- []
+Package natbib Warning: Citation `durbin1998biological' on page 7 undefined on 
+input line 188.
 
-<slike/bodovanje_graf1.png, id=42, 867.24pt x 433.62pt>
-File: slike/bodovanje_graf1.png Graphic file (type png)
-<use slike/bodovanje_graf1.png>
-Package pdftex.def Info: slike/bodovanje_graf1.png  used on input line 217.
-(pdftex.def)             Requested size: 371.30475pt x 227.62082pt.
 ! Extra }, or forgotten \endgroup.
-\@endfloatbox ...pagefalse \outer@nobreak \egroup 
-                                                  \color@endbox 
-l.220 \end{figure}
-                  
+<recently read> }
+                 
+l.203 ...REDNJA VRIJEDNOST} & \textbf{STANDARDNA}}
+                                                   \\
 I've deleted a group-closing symbol because it seems to be
 spurious, as in `$x}$'. But perhaps the } is legitimate and
 you forgot something else, as in `\hbox{$x}'. In such cases
@@ -1084,16 +1086,16 @@ deleted material, e.g., by typing `I$}'.
 [7
 
 ]
-<slike/bodovanje_graf2.png, id=47, 867.24pt x 433.62pt>
-File: slike/bodovanje_graf2.png Graphic file (type png)
-<use slike/bodovanje_graf2.png>
-Package pdftex.def Info: slike/bodovanje_graf2.png  used on input line 224.
+<slike/bodovanje_graf1.png, id=46, 867.24pt x 433.62pt>
+File: slike/bodovanje_graf1.png Graphic file (type png)
+<use slike/bodovanje_graf1.png>
+Package pdftex.def Info: slike/bodovanje_graf1.png  used on input line 226.
 (pdftex.def)             Requested size: 371.30475pt x 227.62082pt.
 
 ! Extra }, or forgotten \endgroup.
 \@endfloatbox ...pagefalse \outer@nobreak \egroup 
                                                   \color@endbox 
-l.227 \end{figure}
+l.229 \end{figure}
                   
 I've deleted a group-closing symbol because it seems to be
 spurious, as in `$x}$'. But perhaps the } is legitimate and
@@ -1101,39 +1103,65 @@ you forgot something else, as in `\hbox{$x}'. In such cases
 the way to recover is to insert both the forgotten and the
 deleted material, e.g., by typing `I$}'.
 
-[8 <./slike/bodovanje_graf1.png> <./slike/bodovanje_graf2.png>]
+<slike/bodovanje_graf2.png, id=48, 867.24pt x 433.62pt>
+File: slike/bodovanje_graf2.png Graphic file (type png)
+<use slike/bodovanje_graf2.png>
+Package pdftex.def Info: slike/bodovanje_graf2.png  used on input line 233.
+(pdftex.def)             Requested size: 371.30475pt x 227.62082pt.
+! Extra }, or forgotten \endgroup.
+\@endfloatbox ...pagefalse \outer@nobreak \egroup 
+                                                  \color@endbox 
+l.236 \end{figure}
+                  
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+[8 <./slike/bodovanje_graf1.png> <./slike/bodovanje_graf2.png>] [9]
 Poglavlje 4.
-(./seminar.bbl [9
+(./seminar.bbl [10
 
 ]
 Poglavlje 5.
-) [10
+)
 
-] (./seminar.aux) ) 
+Package natbib Warning: There were undefined citations.
+
+[11
+
+] (./seminar.aux
+
+Package natbib Warning: Citation(s) may have changed.
+(natbib)                Rerun to get citations correct.
+
+) ) 
 Here is how much of TeX's memory you used:
- 10840 strings out of 478353
- 175874 string characters out of 5852102
+ 10846 strings out of 478353
+ 175975 string characters out of 5852102
  798378 words of memory out of 5000000
- 28749 multiletter control sequences out of 15000+600000
- 466712 words of font info for 99 fonts, out of 8000000 for 9000
+ 28755 multiletter control sequences out of 15000+600000
+ 468260 words of font info for 105 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  73i,18n,77p,1106b,1462s stack positions out of 5000i,500n,10000p,200000b,80000s
-{c:/texlive/2021/texmf-dist/fonts/enc/dvips/base/8r.enc}<c:/
-texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2
-021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb><c:/texlive/2021/texmf
--dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb><c:/texlive/2021/texmf-dist/font
-s/type1/public/amsfonts/cm/cmmi8.pfb><c:/texlive/2021/texmf-dist/fonts/type1/pu
-blic/amsfonts/cm/cmr12.pfb><c:/texlive/2021/texmf-dist/fonts/type1/public/amsfo
-nts/cm/cmsy10.pfb><c:/texlive/2021/texmf-dist/fonts/type1/urw/courier/ucrr8a.pf
-b><c:/texlive/2021/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb><c:/texlive/2
-021/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb><c:/texlive/2021/texmf-dist/
-fonts/type1/urw/helvetic/uhvro8a.pfb><c:/texlive/2021/texmf-dist/fonts/type1/ur
-w/times/utmb8a.pfb><c:/texlive/2021/texmf-dist/fonts/type1/urw/times/utmr8a.pfb
-><c:/texlive/2021/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on seminar.pdf (12 pages, 343044 bytes).
+{c:/texlive/2021/texmf-dist/fonts/enc/dvips/base/8r.enc}<c:/texlive/2021/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2021/texmf-dist/f
+onts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2021/texmf-dist/fonts/type
+1/public/amsfonts/cm/cmmi12.pfb><c:/texlive/2021/texmf-dist/fonts/type1/public/
+amsfonts/cm/cmmi6.pfb><c:/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmmi8.pfb><c:/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pf
+b><c:/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/tex
+live/2021/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb><c:/texlive/2021/texmf-
+dist/fonts/type1/urw/helvetic/uhvb8a.pfb><c:/texlive/2021/texmf-dist/fonts/type
+1/urw/helvetic/uhvr8a.pfb><c:/texlive/2021/texmf-dist/fonts/type1/urw/helvetic/
+uhvro8a.pfb><c:/texlive/2021/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/te
+xlive/2021/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/texlive/2021/texmf-d
+ist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on seminar.pdf (13 pages, 353123 bytes).
 PDF statistics:
- 115 PDF objects out of 1000 (max. 8388607)
- 69 compressed objects within 1 object stream
+ 124 PDF objects out of 1000 (max. 8388607)
+ 75 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  16 words of extra memory for PDF output out of 10000 (max. 10000000)
 

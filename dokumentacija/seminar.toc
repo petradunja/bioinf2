@@ -4,5 +4,5 @@
 \contentsline {section}{\numberline {2.1}Baum-Welch algoritam}{2}{}%
 \contentsline {section}{\numberline {2.2}Viterbi algoritam}{4}{}%
 \contentsline {chapter}{\numberline {3}Analiza rezultata}{7}{}%
-\contentsline {chapter}{\numberline {4}Zaključak}{9}{}%
-\contentsline {chapter}{\numberline {5}Literatura}{10}{}%
+\contentsline {chapter}{\numberline {4}Zaključak}{10}{}%
+\contentsline {chapter}{\numberline {5}Literatura}{11}{}%
